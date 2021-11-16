@@ -11,6 +11,35 @@ namespace MyClassesTest
         
         private const string BAD_FILE_NAME = @"C:\NotExists.bad";
         
+        [ClassInitialize()]
+        public static void ClassInitialize(TestContext tc)
+        {
+            //TODO: Initialize for all tests in class
+            tc.WriteLine("In ClassInitialize() method");
+        }
+
+        [ClassCleanup()]
+        public static void ClassCleanup()
+        {
+            //TODO: Clean up after all tests in class
+        }
+
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            TestContext.WriteLine("In TestInitialize() method");
+
+            if (TestContext.TestName.StartsWith("FileNameDoesExist"))
+            {
+                SetGoodFileName();
+                if (!string.IsNullOrEmpty(_GoodFileName))
+                {
+                    TestContext.WriteLine("Creating file: " + _GoodFileName);
+                    // Create the 'Good' file.
+                    File.AppendAllText(_GoodFileName, "Some Text");
+                }
+            }
+        }
         
         [TestMethod]
         public void FileNameDoesExists()
