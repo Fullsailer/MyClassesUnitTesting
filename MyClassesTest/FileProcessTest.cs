@@ -40,7 +40,24 @@ namespace MyClassesTest
                 }
             }
         }
-        
+
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            TestContext.WriteLine("In TestCleanup() method");
+
+            if (TestContext.TestName.StartsWith("FileNameDoesExist"))
+            {
+                //Delete file
+                if (File.Exists(_GoodFileName))
+                {
+                    TestContext.WriteLine("Deleting file: " + _GoodFileName);
+                    File.Delete(_GoodFileName);
+                }
+            }
+
+        }
+
         [TestMethod]
         public void FileNameDoesExists()
         {
